@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HotelTango.Data;
 using HotelTango.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HotelTango.Controllers
 {
@@ -23,7 +24,19 @@ namespace HotelTango.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Reservation.Include(r => r.Customer).Include(r => r.Room).Include(r => r.RoomType);
-            return View(await applicationDbContext.ToListAsync());
+            var result = applicationDbContext.ToListAsync();
+            return View(result);
+        }
+
+        public async Task<IActionResult> CheckReservationsAvailable()
+        {
+            var applicationDbContext = _context.Reservation.Include(r => r.Customer).Include(r => r.Room).Include(r => r.RoomType);
+
+            var availableRooms = _context.Room.FromSqlRaw("SELECT * FROM [HotelTango].[dbo].[Room] ro WHERE NOT EXISTS (select roomID r from Reservation  r where StartDate <= GETDATE() AND EndDate >= GETDATE() and ro.Id = r.RoomID)").ToList();
+
+            //return View(await availableRooms);
+            return View("Room",await _context.Room.FromSqlRaw("SELECT * FROM [HotelTango].[dbo].[Room] ro WHERE NOT EXISTS (select roomID r from Reservation  r where StartDate <= GETDATE() AND EndDate >= GETDATE() and ro.Id = r.RoomID)").ToListAsync());
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Reservations/Details/5
@@ -56,6 +69,7 @@ namespace HotelTango.Controllers
             return View();
         }
 
+        
         // POST: Reservations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -63,6 +77,9 @@ namespace HotelTango.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CustomerID,RoomID,StartDate,EndDate,RoomTypeID")] Reservation reservation)
         {
+            var duchess = _context.Reservation.Where(x => x.Id == 1 && x.RoomID == 3).FirstOrDefault();
+
+            
             if (ModelState.IsValid)
             {
                 _context.Add(reservation);
