@@ -22,8 +22,7 @@ namespace HotelTango.Controllers
         // GET: Rooms
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Room.Include(r => r.RoomType);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Room.ToListAsync());
         }
 
         // GET: Rooms/Details/5
@@ -35,8 +34,7 @@ namespace HotelTango.Controllers
             }
 
             var room = await _context.Room
-                .Include(r => r.RoomType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.RoomNumber == id);
             if (room == null)
             {
                 return NotFound();
@@ -48,7 +46,6 @@ namespace HotelTango.Controllers
         // GET: Rooms/Create
         public IActionResult Create()
         {
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace HotelTango.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RoomNumber,RoomTypeID")] Room room)
+        public async Task<IActionResult> Create([Bind("RoomNumber,RoomTypeName,BedType,NumberOfBeds,RoomRate")] Room room)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +62,6 @@ namespace HotelTango.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id", room.RoomTypeID);
             return View(room);
         }
 
@@ -82,7 +78,6 @@ namespace HotelTango.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id", room.RoomTypeID);
             return View(room);
         }
 
@@ -91,9 +86,9 @@ namespace HotelTango.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RoomNumber,RoomTypeID")] Room room)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomNumber,RoomTypeName,BedType,NumberOfBeds,RoomRate")] Room room)
         {
-            if (id != room.Id)
+            if (id != room.RoomNumber)
             {
                 return NotFound();
             }
@@ -107,7 +102,7 @@ namespace HotelTango.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomExists(room.Id))
+                    if (!RoomExists(room.RoomNumber))
                     {
                         return NotFound();
                     }
@@ -118,7 +113,6 @@ namespace HotelTango.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id", room.RoomTypeID);
             return View(room);
         }
 
@@ -131,8 +125,7 @@ namespace HotelTango.Controllers
             }
 
             var room = await _context.Room
-                .Include(r => r.RoomType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.RoomNumber == id);
             if (room == null)
             {
                 return NotFound();
@@ -154,7 +147,7 @@ namespace HotelTango.Controllers
 
         private bool RoomExists(int id)
         {
-            return _context.Room.Any(e => e.Id == id);
+            return _context.Room.Any(e => e.RoomNumber == id);
         }
     }
 }

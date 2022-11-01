@@ -1,23 +1,31 @@
 ﻿@model IEnumerable<HotelTango.Models.Room>
 
 @{
-    ViewData["Title"] = "Hotel Tango Rooms";
-    ViewData["Room"] = "values";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Hotel Tango Rooms</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New Room</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomNumber)
+                Room Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RoomType)
+                @Html.DisplayNameFor(model => model.RoomTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BedType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfBeds)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomRate)
             </th>
             <th></th>
         </tr>
@@ -29,12 +37,21 @@
                 @Html.DisplayFor(modelItem => item.RoomNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RoomType.Id)
+                @Html.DisplayFor(modelItem => item.RoomTypeName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.BedType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfBeds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomRate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RoomNumber">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RoomNumber">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RoomNumber">Delete</a>
             </td>
         </tr>
 }

@@ -7,10 +7,10 @@ namespace HotelTango.Models
     public class Room
     {
         [Key]
-        public int Id { get; set; }
         public int RoomNumber { get; set; }
-        public int RoomTypeID { get; set; }
-        [ForeignKey("RoomTypeID")]
-        public virtual RoomType RoomType { get; set; }
+        public string RoomTypeName { get; set; }
+        public string BedType { get; set; }
+        public int NumberOfBeds { get; set; }
+        public int RoomRate { get; set; }
     }
 }

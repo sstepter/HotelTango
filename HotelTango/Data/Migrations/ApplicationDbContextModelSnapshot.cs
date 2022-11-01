@@ -68,10 +68,7 @@ namespace HotelTango.Data.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RoomID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomTypeID")
+                    b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -81,36 +78,14 @@ namespace HotelTango.Data.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("RoomID");
-
-                    b.HasIndex("RoomTypeID");
+                    b.HasIndex("RoomNumber");
 
                     b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("HotelTango.Models.Room", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomTypeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomTypeID");
-
-                    b.ToTable("Room");
-                });
-
-            modelBuilder.Entity("HotelTango.Models.RoomType", b =>
-                {
-                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -127,9 +102,9 @@ namespace HotelTango.Data.Migrations
                     b.Property<string>("RoomTypeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomNumber");
 
-                    b.ToTable("RoomType");
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -342,22 +317,7 @@ namespace HotelTango.Data.Migrations
 
                     b.HasOne("HotelTango.Models.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelTango.Models.RoomType", "RoomType")
-                        .WithMany()
-                        .HasForeignKey("RoomTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("HotelTango.Models.Room", b =>
-                {
-                    b.HasOne("HotelTango.Models.RoomType", "RoomType")
-                        .WithMany("Rooms")
-                        .HasForeignKey("RoomTypeID")
+                        .HasForeignKey("RoomNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

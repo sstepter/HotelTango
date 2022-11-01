@@ -11,14 +11,10 @@ namespace HotelTango.Models
         public int CustomerID { get; set; }
         [ForeignKey("CustomerID")]
         public virtual Customer Customer { get; set; }
-        public int RoomID { get; set; }
-        [ForeignKey("RoomID")]
+        public int RoomNumber { get; set; }
+        [ForeignKey("RoomNumber")]
         public virtual Room Room { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int RoomTypeID { get; set; }
-        [ForeignKey("RoomTypeID")]
-        public virtual RoomType RoomType { get; set; }
-
     }
 }

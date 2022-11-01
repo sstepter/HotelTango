@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HotelTango.Data;
 using HotelTango.Models;
-using System.Security.Cryptography.X509Certificates;
 
 namespace HotelTango.Controllers
 {
@@ -23,20 +22,8 @@ namespace HotelTango.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Reservation.Include(r => r.Customer).Include(r => r.Room).Include(r => r.RoomType);
-            var result = applicationDbContext.ToListAsync();
-            return View(result);
-        }
-
-        public async Task<IActionResult> CheckReservationsAvailable()
-        {
-            var applicationDbContext = _context.Reservation.Include(r => r.Customer).Include(r => r.Room).Include(r => r.RoomType);
-
-            var availableRooms = _context.Room.FromSqlRaw("SELECT * FROM [HotelTango].[dbo].[Room] ro WHERE NOT EXISTS (select roomID r from Reservation  r where StartDate <= GETDATE() AND EndDate >= GETDATE() and ro.Id = r.RoomID)").ToList();
-
-            //return View(await availableRooms);
-            return View("Room",await _context.Room.FromSqlRaw("SELECT * FROM [HotelTango].[dbo].[Room] ro WHERE NOT EXISTS (select roomID r from Reservation  r where StartDate <= GETDATE() AND EndDate >= GETDATE() and ro.Id = r.RoomID)").ToListAsync());
-            //return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Reservation.Include(r => r.Customer).Include(r => r.Room);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Reservations/Details/5
@@ -50,7 +37,6 @@ namespace HotelTango.Controllers
             var reservation = await _context.Reservation
                 .Include(r => r.Customer)
                 .Include(r => r.Room)
-                .Include(r => r.RoomType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
@@ -64,22 +50,17 @@ namespace HotelTango.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerID"] = new SelectList(_context.Customer, "Id", "Id");
-            ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Id");
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id");
+            ViewData["RoomNumber"] = new SelectList(_context.Room, "RoomNumber", "RoomNumber");
             return View();
         }
 
-        
         // POST: Reservations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerID,RoomID,StartDate,EndDate,RoomTypeID")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("Id,CustomerID,RoomNumber,StartDate,EndDate")] Reservation reservation)
         {
-            var duchess = _context.Reservation.Where(x => x.Id == 1 && x.RoomID == 3).FirstOrDefault();
-
-            
             if (ModelState.IsValid)
             {
                 _context.Add(reservation);
@@ -87,8 +68,7 @@ namespace HotelTango.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerID"] = new SelectList(_context.Customer, "Id", "Id", reservation.CustomerID);
-            ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomID);
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id", reservation.RoomTypeID);
+            ViewData["RoomNumber"] = new SelectList(_context.Room, "RoomNumber", "RoomNumber", reservation.RoomNumber);
             return View(reservation);
         }
 
@@ -106,8 +86,7 @@ namespace HotelTango.Controllers
                 return NotFound();
             }
             ViewData["CustomerID"] = new SelectList(_context.Customer, "Id", "Id", reservation.CustomerID);
-            ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomID);
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id", reservation.RoomTypeID);
+            ViewData["RoomNumber"] = new SelectList(_context.Room, "RoomNumber", "RoomNumber", reservation.RoomNumber);
             return View(reservation);
         }
 
@@ -116,7 +95,7 @@ namespace HotelTango.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,RoomID,StartDate,EndDate,RoomTypeID")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,RoomNumber,StartDate,EndDate")] Reservation reservation)
         {
             if (id != reservation.Id)
             {
@@ -144,8 +123,7 @@ namespace HotelTango.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerID"] = new SelectList(_context.Customer, "Id", "Id", reservation.CustomerID);
-            ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomID);
-            ViewData["RoomTypeID"] = new SelectList(_context.RoomType, "Id", "Id", reservation.RoomTypeID);
+            ViewData["RoomNumber"] = new SelectList(_context.Room, "RoomNumber", "RoomNumber", reservation.RoomNumber);
             return View(reservation);
         }
 
@@ -160,7 +138,6 @@ namespace HotelTango.Controllers
             var reservation = await _context.Reservation
                 .Include(r => r.Customer)
                 .Include(r => r.Room)
-                .Include(r => r.RoomType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
