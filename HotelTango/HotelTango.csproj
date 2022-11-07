@@ -12,6 +12,14 @@
     <Compile Remove="Data\Migrations\20221107164159_addReservation.Designer.cs" />
     <Compile Remove="Data\Migrations\20221107181042_addReservation.cs" />
     <Compile Remove="Data\Migrations\20221107181042_addReservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107202544_addreservation.cs" />
+    <Compile Remove="Data\Migrations\20221107202544_addreservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107203050_addreservation.cs" />
+    <Compile Remove="Data\Migrations\20221107203050_addreservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107204037_addreservation.cs" />
+    <Compile Remove="Data\Migrations\20221107204037_addreservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107205657_addreservation.cs" />
+    <Compile Remove="Data\Migrations\20221107205657_addreservation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
