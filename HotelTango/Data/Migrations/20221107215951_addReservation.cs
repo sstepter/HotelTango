@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelTango.Data.Migrations
 {
-    public partial class addreservation : Migration
+    public partial class addReservation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,10 +15,7 @@ namespace HotelTango.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerID = table.Column<int>(nullable: false),
                     RoomID = table.Column<int>(nullable: false),
-                    WIFI_Passcode = table.Column<string>(nullable: true, computedColumnSql: @"LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-"),
+                    WIFI_Passcode = table.Column<string>(nullable: true, defaultValueSql: "LOWER(REPLACE(LEFT(NEWID(),10), '-',''))"),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false)
                 },
