@@ -8,6 +8,10 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20221103144002_addRoomandRoomType.cs" />
     <Compile Remove="Data\Migrations\20221103144002_addRoomandRoomType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107164159_addReservation.cs" />
+    <Compile Remove="Data\Migrations\20221107164159_addReservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107181042_addReservation.cs" />
+    <Compile Remove="Data\Migrations\20221107181042_addReservation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
