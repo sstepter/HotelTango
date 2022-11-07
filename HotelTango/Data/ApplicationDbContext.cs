@@ -15,9 +15,9 @@ namespace HotelTango.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RandomPasswordGenerator uniquePassword = new RandomPasswordGenerator();
             modelBuilder.Entity<Reservation>().HasKey(e => e.Id);
-            modelBuilder.Entity<Reservation>().Property(p => p.WIFI_Passcode).HasComputedColumnSql("LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)+CHAR(RAND()*24+66)\r\n      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)\r\n      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)\r\n");
+            //modelBuilder.Entity<Reservation>().Property(p => p.WIFI_Passcode).HasComputedColumnSql("LOWER(REPLACE(LEFT(NEWID(),10), '-',''))");
+            modelBuilder.Entity<Reservation>().Property(p => p.WIFI_Passcode).HasDefaultValueSql("LOWER(REPLACE(LEFT(NEWID(),10), '-',''))");
             base.OnModelCreating(modelBuilder);
         }
 

@@ -75,12 +75,9 @@ namespace HotelTango.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("WIFI_Passcode")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql(@"LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-");
+                        .HasDefaultValueSql("LOWER(REPLACE(LEFT(NEWID(),10), '-',''))");
 
                     b.HasKey("Id");
 
