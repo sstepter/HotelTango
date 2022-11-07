@@ -16,7 +16,7 @@ namespace HotelTango.Models
         [ForeignKey("RoomID")]
         public virtual int RoomID { get; set; }
         public virtual Room Room { get; set; }
-        public string WIFI_ID {get; private set; }
+        public string WIFI_Passcode {get; private set; }
         public DateTime StartDate  { get; set; }
         public DateTime EndDate { get; set; }
 
