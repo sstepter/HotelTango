@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HotelTango.Data;
+using HotelTango.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HotelTango.Data;
-using HotelTango.Models;
 
 namespace HotelTango.Controllers
 {
@@ -20,9 +18,38 @@ namespace HotelTango.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //  return View(await _context.Customer.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            return View(await _context.Customer.ToListAsync());
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
+            ViewData["DateSortParam"] = sortOrder == "Date" ? "dateDesc" : "date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var Customers = from s in _context.Customer
+                            select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Customers = Customers.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "nameDesc":
+                    Customers = Customers.OrderByDescending(s => s.LastName);
+                    break;
+                case "firstname":
+                    Customers = Customers.OrderByDescending(s => s.FirstName);
+                    break;
+                default:
+                    Customers = Customers.OrderBy(s => s.LastName);
+                    break;
+            }
+            return View(await Customers.AsNoTracking().ToListAsync());
         }
 
         // GET: Customers/Details/5

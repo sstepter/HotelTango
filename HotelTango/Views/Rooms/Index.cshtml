@@ -1,23 +1,48 @@
 ﻿@model IEnumerable<HotelTango.Models.Room>
 
 @{
-    ViewData["Title"] = "Hotel Tango Rooms";
-    ViewData["Room"] = "values";
+    ViewData["Title"] = "All Rooms";
 }
 
-<h1>Hotel Tango Rooms</h1>
+<h4>All Rooms</h4>
 
 <p>
     <a asp-action="Create">Create New Room</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-action no-color">
+        <p>
+            Find by Name:<input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-success" />
+            <a asp-action="Index"> Back to Full List </a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomNumber)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.Id)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RoomType)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.RoomNumber)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.RoomTypeID)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.RoomType.RoomTypeName)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.RoomType.BedType)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.RoomType.NumberOfBeds)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.RoomType.RoomRate)</a>
             </th>
             <th></th>
         </tr>
@@ -26,10 +51,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.RoomNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RoomType.Id)
+                @Html.DisplayFor(modelItem => item.RoomTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomType.RoomTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomType.BedType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomType.NumberOfBeds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomType.RoomRate)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

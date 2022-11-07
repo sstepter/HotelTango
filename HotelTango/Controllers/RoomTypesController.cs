@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HotelTango.Data;
+using HotelTango.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HotelTango.Data;
-using HotelTango.Models;
 
 namespace HotelTango.Controllers
 {
@@ -20,9 +18,47 @@ namespace HotelTango.Controllers
         }
 
         // GET: RoomTypes
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.RoomType.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            return View(await _context.RoomType.ToListAsync());
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
+            ViewData["DateSortParam"] = sortOrder == "Date" ? "dateDesc" : "date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var RoomTypes = from s in _context.RoomType
+                            select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                RoomTypes = RoomTypes.Where(s => s.RoomTypeName.Contains(searchString) || s.BedType.Contains(searchString) || s.NumberOfBeds.ToString().Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "Id":
+                    RoomTypes = RoomTypes.OrderByDescending(s => s.Id);
+                    break;
+                case "nameDesc":
+                    RoomTypes = RoomTypes.OrderByDescending(s => s.RoomTypeName);
+                    break;
+                case "BedType":
+                    RoomTypes = RoomTypes.OrderByDescending(s => s.BedType);
+                    break;
+                case "NumberOfBeds":
+                    RoomTypes = RoomTypes.OrderByDescending(s => s.NumberOfBeds);
+                    break;
+                case "RoomRate":
+                    RoomTypes = RoomTypes.OrderByDescending(s => s.RoomRate);
+                    break;
+                default:
+                    RoomTypes = RoomTypes.OrderBy(s => s.RoomTypeName);
+                    break;
+            }
+            return View(await RoomTypes.AsNoTracking().ToListAsync());
         }
 
         // GET: RoomTypes/Details/5

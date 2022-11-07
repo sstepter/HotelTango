@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelTango.Models
@@ -9,8 +8,8 @@ namespace HotelTango.Models
         [Key]
         public int Id { get; set; }
         public int RoomNumber { get; set; }
-        public int RoomTypeID { get; set; }
         [ForeignKey("RoomTypeID")]
+        public virtual int RoomTypeID { get; set; }
         public virtual RoomType RoomType { get; set; }
     }
 }

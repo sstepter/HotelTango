@@ -2,7 +2,7 @@
 
 namespace HotelTango.Data.Migrations
 {
-    public partial class addRoomAndRoomType : Migration
+    public partial class addRoomandRoomType : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace HotelTango.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomNumber = table.Column<int>(nullable: false),
-                    RoomTypeID = table.Column<int>(nullable: true)
+                    RoomTypeID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,7 @@ namespace HotelTango.Data.Migrations
                         column: x => x.RoomTypeID,
                         principalTable: "RoomType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

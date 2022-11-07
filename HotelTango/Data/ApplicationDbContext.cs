@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using HotelTango.Models;
 
 namespace HotelTango.Data
@@ -13,9 +10,9 @@ namespace HotelTango.Data
             : base(options)
         {
         }
-        public DbSet<HotelTango.Models.Room> Room { get; set; }
         public DbSet<HotelTango.Models.RoomType> RoomType { get; set; }
+        public DbSet<HotelTango.Models.Room> Room { get; set; }
         public DbSet<HotelTango.Models.Customer> Customer { get; set; }
-        public DbSet<HotelTango.Models.Reservation> Reservation { get; set; }
+        public DbSet<HotelTango.Models.testClass> testClass { get; set; }
     }
 }
