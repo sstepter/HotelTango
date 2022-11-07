@@ -2,7 +2,7 @@
 
 namespace HotelTango.Data.Migrations
 {
-    public partial class addCustomer : Migration
+    public partial class addcustomer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

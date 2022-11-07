@@ -2,22 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-HotelTango-691E0888-C06E-4E64-AC79-C518C6EA525C</UserSecretsId>
+    <UserSecretsId>aspnet-HotelTango-5446EC12-AB10-4A6F-9AE9-933AC7FFA1BA</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20220920150642_addReservation.cs" />
-    <Compile Remove="Data\Migrations\20220920150642_addReservation.Designer.cs" />
-    <Compile Remove="Data\Migrations\20220920150858_addReservation.cs" />
-    <Compile Remove="Data\Migrations\20220920150858_addReservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221103144002_addRoomandRoomType.cs" />
+    <Compile Remove="Data\Migrations\20221103144002_addRoomandRoomType.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.29" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.29" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.29" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.29" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.29" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.27" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.27" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.27" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.30">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
