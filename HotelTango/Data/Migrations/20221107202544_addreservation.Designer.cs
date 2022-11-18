@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelTango.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221107211112_addreservation")]
+    [Migration("20221107202544_addreservation")]
     partial class addreservation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,13 +76,10 @@ namespace HotelTango.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("WIFI_Passcode")
+                    b.Property<string>("WIFI_ID")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql(@"LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-");
+                        .HasComputedColumnSql("HotelTango.Models.RandomPasswordGenerator");
 
                     b.HasKey("Id");
 

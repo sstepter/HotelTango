@@ -15,10 +15,7 @@ namespace HotelTango.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerID = table.Column<int>(nullable: false),
                     RoomID = table.Column<int>(nullable: false),
-                    WIFI_Passcode = table.Column<string>(nullable: true, computedColumnSql: @"LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-      +CHAR(RAND()*24+66)+LOWER(CHAR(RAND()*24+66))+CHAR(RAND()*24+66)
-"),
+                    WIFI_ID = table.Column<string>(nullable: true, computedColumnSql: "11/7/2022_CAST(ROOMID AS VARCHAR(500))+ CAST(ID AS VARCHAR(500))+ CAST(CustomerID AS VARCHAR(500))"),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false)
                 },
