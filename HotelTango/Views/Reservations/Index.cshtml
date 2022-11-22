@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<HotelTango.Models.Reservation>
 
 @{
+    ViewData["Title"] = "All Reservations";
+}
 
+<h4>Customer Reservations</h4>
 
 <p>
     <a asp-action="Create">Create New Reservation</a>
@@ -21,7 +24,19 @@
     <thead>
         <tr>
             <th>
-
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParam"]">@Html.DisplayNameFor(model => model.Id)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParam"]">@Html.DisplayNameFor(model => model.Customer.Id)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSortParam"]">@Html.DisplayNameFor(model => model.Customer.FirstName)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LastNameSortParam"]">@Html.DisplayNameFor(model => model.Customer.LastName)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["RoomNumberSortParam"]">@Html.DisplayNameFor(model => model.Room.RoomNumber)</a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["WIFI_PasscodeSortParam"]">@Html.DisplayNameFor(model => model.WIFI_Passcode)</a>
@@ -42,7 +57,15 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-
+                    @Html.DisplayFor(modelItem => item.Customer.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.LastName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Room.RoomNumber)
             </td>
             <td>
