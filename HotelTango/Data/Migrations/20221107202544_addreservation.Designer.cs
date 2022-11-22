@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelTango.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221105142419_addtestClass")]
-    partial class addtestClass
+    [Migration("20221107202544_addreservation")]
+    partial class addreservation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,6 +55,39 @@ namespace HotelTango.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("HotelTango.Models.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RoomID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WIFI_ID")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComputedColumnSql("HotelTango.Models.RandomPasswordGenerator");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("RoomID");
+
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("HotelTango.Models.Room", b =>
@@ -314,6 +347,21 @@ namespace HotelTango.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("HotelTango.Models.Reservation", b =>
+                {
+                    b.HasOne("HotelTango.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelTango.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HotelTango.Models.Room", b =>
