@@ -1,5 +1,6 @@
 ﻿using HotelTango.Data;
 using HotelTango.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,16 +18,14 @@ namespace HotelTango.Controllers
             _context = context;
         }
 
-        // GET: RoomTypes
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.RoomType.ToListAsync());
-        //}
-
+        [Authorize]
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
-            ViewData["DateSortParam"] = sortOrder == "Date" ? "dateDesc" : "date";
+            ViewData["IdSortParam"] = String.IsNullOrEmpty(sortOrder) ? "Id" : "";
+            ViewData["RoomTypeNameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "RoomTypeName" : "";
+            ViewData["BedTypeSortParam"] = String.IsNullOrEmpty(sortOrder) ? "BedType" : "";
+            ViewData["NumberOfBedsSortParam"] = String.IsNullOrEmpty(sortOrder) ? "NumberOfBeds" : "";
+            ViewData["RoomRateSortParam"] = String.IsNullOrEmpty(sortOrder) ? "RoomRate" : "";
             ViewData["CurrentFilter"] = searchString;
 
             var RoomTypes = from s in _context.RoomType
@@ -42,7 +41,7 @@ namespace HotelTango.Controllers
                 case "Id":
                     RoomTypes = RoomTypes.OrderByDescending(s => s.Id);
                     break;
-                case "nameDesc":
+                case "RoomTypeName":
                     RoomTypes = RoomTypes.OrderByDescending(s => s.RoomTypeName);
                     break;
                 case "BedType":
@@ -55,13 +54,14 @@ namespace HotelTango.Controllers
                     RoomTypes = RoomTypes.OrderByDescending(s => s.RoomRate);
                     break;
                 default:
-                    RoomTypes = RoomTypes.OrderBy(s => s.RoomTypeName);
+                    RoomTypes = RoomTypes.OrderBy(s => s.Id);
                     break;
             }
             return View(await RoomTypes.AsNoTracking().ToListAsync());
         }
 
         // GET: RoomTypes/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -80,14 +80,14 @@ namespace HotelTango.Controllers
         }
 
         // GET: RoomTypes/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: RoomTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,RoomTypeName,BedType,NumberOfBeds,RoomRate")] RoomType roomType)
@@ -102,6 +102,7 @@ namespace HotelTango.Controllers
         }
 
         // GET: RoomTypes/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,8 +119,7 @@ namespace HotelTango.Controllers
         }
 
         // POST: RoomTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,RoomTypeName,BedType,NumberOfBeds,RoomRate")] RoomType roomType)
@@ -153,6 +153,7 @@ namespace HotelTango.Controllers
         }
 
         // GET: RoomTypes/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -171,6 +172,7 @@ namespace HotelTango.Controllers
         }
 
         // POST: RoomTypes/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

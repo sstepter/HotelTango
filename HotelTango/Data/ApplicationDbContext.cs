@@ -24,7 +24,6 @@ namespace HotelTango.Data
         public DbSet<HotelTango.Models.RoomType> RoomType { get; set; }
         public DbSet<HotelTango.Models.Room> Room { get; set; }
         public DbSet<HotelTango.Models.Customer> Customer { get; set; }
-        public DbSet<HotelTango.Models.testClass> testClass { get; set; }
         public DbSet<HotelTango.Models.Reservation> Reservation { get; set; }
 
 

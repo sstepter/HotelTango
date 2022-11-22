@@ -1,5 +1,6 @@
 ﻿using HotelTango.Data;
 using HotelTango.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,15 +18,18 @@ namespace HotelTango.Controllers
             _context = context;
         }
 
-        // GET: Customers
-        //public async Task<IActionResult> Index()
-        //{
-        //  return View(await _context.Customer.ToListAsync());
-        //}
-
+        [Authorize]
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
+            ViewData["IDSortParam"] = String.IsNullOrEmpty(sortOrder) ? "Id" : "";
+            ViewData["FirstNameSortParam"] = String.IsNullOrEmpty(sortOrder)  ? "FirstName" : "";
+            ViewData["LastNameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "LastName" : "";            
+            ViewData["AddressSortParam"] = String.IsNullOrEmpty(sortOrder) ? "Address" : "";
+            ViewData["CitySortParam"] = String.IsNullOrEmpty(sortOrder) ? "City" : "";
+            ViewData["StateSortParam"] = String.IsNullOrEmpty(sortOrder) ? "State" : "";
+            ViewData["PostalCodeSortParam"] = String.IsNullOrEmpty(sortOrder) ? "PostalCode" : "";
+            ViewData["EmailAddressSortParam"] = String.IsNullOrEmpty(sortOrder) ? "EmailAddress" : "";
+            ViewData["PhoneNumberSortParam"] = String.IsNullOrEmpty(sortOrder) ? "PhoneNumber" : "";
             ViewData["DateSortParam"] = sortOrder == "Date" ? "dateDesc" : "date";
             ViewData["CurrentFilter"] = searchString;
 
@@ -39,20 +43,42 @@ namespace HotelTango.Controllers
 
             switch (sortOrder)
             {
-                case "nameDesc":
-                    Customers = Customers.OrderByDescending(s => s.LastName);
+                case "Id":
+                    Customers = Customers.OrderByDescending(s => s.Id.ToString());
                     break;
-                case "firstname":
-                    Customers = Customers.OrderByDescending(s => s.FirstName);
+                case "FirstName":
+                    Customers = Customers.OrderBy(s => s.FirstName);
+                    break;
+                case "LastName":
+                    Customers = Customers.OrderBy(s => s.LastName);
+                    break;
+                case "Address":
+                    Customers = Customers.OrderBy(s => s.Address);
+                    break;
+                case "City":
+                    Customers = Customers.OrderBy(s => s.City);
+                    break;
+                case "State":
+                    Customers = Customers.OrderBy(s => s.State);
+                    break;
+                case "PostalCode":
+                    Customers = Customers.OrderBy(s => s.PostalCode);
+                    break;
+                case "EmailAddress":
+                    Customers = Customers.OrderBy(s => s.EmailAddress);
+                    break;
+                case "PhoneNumber":
+                    Customers = Customers.OrderBy(s => s.PhoneNumber);
                     break;
                 default:
-                    Customers = Customers.OrderBy(s => s.LastName);
+                    Customers = Customers.OrderBy(s => s.Id);
                     break;
             }
             return View(await Customers.AsNoTracking().ToListAsync());
         }
 
         // GET: Customers/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -71,14 +97,14 @@ namespace HotelTango.Controllers
         }
 
         // GET: Customers/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,City,State,PostalCode,EmailAddress,PhoneNumber")] Customer customer)
@@ -93,6 +119,7 @@ namespace HotelTango.Controllers
         }
 
         // GET: Customers/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,8 +136,7 @@ namespace HotelTango.Controllers
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,City,State,PostalCode,EmailAddress,PhoneNumber")] Customer customer)
@@ -144,6 +170,7 @@ namespace HotelTango.Controllers
         }
 
         // GET: Customers/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -162,6 +189,7 @@ namespace HotelTango.Controllers
         }
 
         // POST: Customers/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
