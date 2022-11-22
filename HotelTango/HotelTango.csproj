@@ -20,6 +20,10 @@
     <Compile Remove="Data\Migrations\20221107204037_addreservation.Designer.cs" />
     <Compile Remove="Data\Migrations\20221107205657_addreservation.cs" />
     <Compile Remove="Data\Migrations\20221107205657_addreservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107211112_addreservation.cs" />
+    <Compile Remove="Data\Migrations\20221107211112_addreservation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221107213734_addReservation.cs" />
+    <Compile Remove="Data\Migrations\20221107213734_addReservation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
