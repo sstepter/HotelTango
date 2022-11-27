@@ -1,0 +1,1 @@
+Data collection scripts are not in scope for this application as the app is not complex enough to warrant data collection scripts.
