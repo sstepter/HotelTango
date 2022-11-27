@@ -1,0 +1,47 @@
+﻿@model HotelTango.Models.RoomType
+
+@{
+    ViewData["Title"] = "Edit RoomType";
+}
+
+<h4>Edit RoomType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="RoomTypeName" class="control-label"></label>
+                <input asp-for="RoomTypeName" class="form-control" />
+                <span asp-validation-for="RoomTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedType" class="control-label"></label>
+                <input asp-for="BedType" class="form-control" />
+                <span asp-validation-for="BedType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfBeds" class="control-label"></label>
+                <input asp-for="NumberOfBeds" class="form-control" />
+                <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomRate" class="control-label"></label>
+                <input asp-for="RoomRate" class="form-control" />
+                <span asp-validation-for="RoomRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
