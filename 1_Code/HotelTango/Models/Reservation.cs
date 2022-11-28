@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace HotelTango.Models
 {
-    //https://eamonkeane.dev/computed-columns-in-entity-framework-core/
     public class Reservation
     {
         [Key]
